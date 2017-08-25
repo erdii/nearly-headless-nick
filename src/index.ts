@@ -1,5 +1,14 @@
+import { Headless } from "./headless";
+import { Server } from "./server";
+
 async function main() {
-	console.log("hi");
+	const headless = new Headless();
+	await headless.init();
+
+	const server = new Server(3000, headless);
+	await server.init();
+
+	console.log("server listening");
 }
 
 main().catch(err => {
