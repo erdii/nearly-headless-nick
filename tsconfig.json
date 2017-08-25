@@ -8,6 +8,14 @@
 			"node"
 		],
 		"allowJs": true,
-		"noImplicitAny": true
-	}
+		"noImplicitAny": true,
+		"typeRoots": [
+			"typings",
+			"node_modules/@types"
+		]
+	},
+	"include": [
+		"src",
+		"typings"
+	]
 }
