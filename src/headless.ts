@@ -33,7 +33,13 @@ export class Headless {
 		const cacheKey = lib.hash(url);
 		log(cacheKey, options);
 
-		const cachedImage = await this.cache.get(cacheKey);
+		let cachedImage: Buffer;
+
+		try {
+			cachedImage = await this.cache.get(cacheKey);
+		} catch (err) {
+			log("could not get image from cache", err);
+		}
 
 		if (cachedImage != null) {
 			return cachedImage;
@@ -52,7 +58,11 @@ export class Headless {
 
 		const imageBuffer = await page.screenshot();
 
-		await this.cache.set(cacheKey, imageBuffer);
+		try {
+			await this.cache.set(cacheKey, imageBuffer);
+		} catch (err) {
+			log("could not save image to cache", err);
+		}
 
 		await page.close();
 
