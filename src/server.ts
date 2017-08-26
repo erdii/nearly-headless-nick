@@ -30,10 +30,18 @@ export class Server {
 	}
 
 	private handler = (req: express.Request, res: express.Response) => {
+		const path = (req.path.slice(1) || "").trim();
+
+		switch (path) {
+			case "favicon.ico":
+				res.sendStatus(404);
+				return;
+		}
+
 		log("new request");
 
-		const options = lib.createOptions(req.query.width, req.query.height);
-		const url = lib.sanitizeUrl((req.path.slice(1) || "").trim());
+		const options = lib.createOptions(req.query);
+		const url = lib.sanitizeUrl(path);
 
 		if (!url) {
 			log("url is empty, returning");
@@ -44,9 +52,9 @@ export class Server {
 		log("debug: %s", url, options);
 
 		this.headless.screenshot(url, options)
-			.then(path => {
-				log("screenshot stored at:", path);
-				res.sendFile(path);
+			.then(image => {
+				res.contentType("png");
+				res.end(image, "binary");
 			})
 			.catch(err => {
 				console.error(err);

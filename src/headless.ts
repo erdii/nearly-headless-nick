@@ -1,17 +1,26 @@
 import * as puppeteer from "puppeteer";
 import * as lib from "./lib";
+import { Cache } from "./cache";
+import { createLogger } from "./logging";
+
+const log = createLogger("puppeteer");
 
 export class Headless {
 	private browser: any;
 	private folder: string;
+	private cache: Cache;
 
 	public static readonly defaultOptions = {
 		width: 1024,
 		height: 768,
 	};
 
+	constructor(cache: Cache) {
+		this.cache = cache;
+	}
+
 	public async init(options: any = {}) {
-		this.folder = await lib.createTmpDir();
+		log("initializing puppeteer");
 		this.browser = await puppeteer.launch(options);
 	}
 
@@ -21,14 +30,13 @@ export class Headless {
 			..._options
 		};
 
-		console.log(options);
+		const cacheKey = lib.hash(url);
+		log(cacheKey, options);
 
-		const path = lib.createScreenshotPath(this.folder, url, options);
+		const cachedImage = await this.cache.get(cacheKey);
 
-		const exists = await lib.fileExists(path);
-
-		if (exists) {
-			return path;
+		if (cachedImage != null) {
+			return cachedImage;
 		}
 
 		const page = await this.browser.newPage();
@@ -42,12 +50,12 @@ export class Headless {
 			waitUntil: "networkidle",
 		});
 
-		await page.screenshot({
-			path,
-		});
+		const imageBuffer = await page.screenshot();
+
+		await this.cache.set(cacheKey, imageBuffer);
 
 		await page.close();
 
-		return path;
+		return imageBuffer as Buffer;
 	}
 }
