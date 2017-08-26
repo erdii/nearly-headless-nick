@@ -34,7 +34,7 @@ export class Headless {
 			..._options
 		};
 
-		const cacheKey = lib.hash(url);
+		const cacheKey = lib.hash(url + JSON.stringify(options));
 		log(cacheKey, options);
 
 		let cachedImage: Buffer;
