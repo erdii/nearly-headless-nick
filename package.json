@@ -1,6 +1,6 @@
 {
   "name": "near-headless-nick",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,8 +10,9 @@
     "copy-pkg": "mkdir ./build/; cp package.json ./build/",
     "clean": "rm -r ./build/",
 	"dev": "DEBUG=HEADLESS* node-dev build/index.js",
-	"make-zip": "mkdir ./release/; zip -j release/nearly-headless-nick.zip build/*",
-	"sign-zip": "keybase pgp sign -d -i release/nearly-headless-nick.zip -o release/nearly-headless-nick.zip.asc"
+	"make-zip": "mkdir ./release/; export VERSION=$(cat package.json | jq -r '.version') && zip -j release/nearly-headless-nick_$VERSION.zip build/*",
+	"sign-zip": "export VERSION=$(cat package.json | jq -r '.version') && keybase pgp sign -d -i release/nearly-headless-nick_$VERSION.zip -o release/nearly-headless-nick_$VERSION.zip.asc",
+	"build-docker-image": "npm run build && export VERSION=$(cat package.json | jq -r '.version') && sudo docker build . -t nearly-headless-nick:$VERSION"
   },
   "keywords": [],
   "author": "",

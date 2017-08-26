@@ -22,7 +22,10 @@ export class Headless {
 
 	public async init(options: any = {}) {
 		log("initializing puppeteer");
-		this.browser = await puppeteer.launch(options);
+		this.browser = await puppeteer.launch({
+			args: ["--no-sandbox", "--disable-setuid-sandbox"],
+			...options
+		});
 	}
 
 	public async screenshot(url: string, _options = {}) {
