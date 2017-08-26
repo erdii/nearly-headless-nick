@@ -1,18 +1,18 @@
 {
   "name": "near-headless-nick",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
-	"build": "npm run clean; npm run copy-pkg && tsc",
-	"watch": "npm run clean; npm run copy-pkg && tsc -w",
-	"release": "npm run build && npm run make-zip && npm run sign-zip",
+    "build": "npm run clean; npm run copy-pkg && tsc",
+    "watch": "npm run clean; npm run copy-pkg && tsc -w",
+    "release": "npm run build && npm run make-zip && npm run sign-zip",
     "copy-pkg": "mkdir ./build/; cp package.json ./build/",
     "clean": "rm -r ./build/",
-	"dev": "DEBUG=HEADLESS* node-dev build/index.js",
-	"make-zip": "mkdir ./release/; export VERSION=$(cat package.json | jq -r '.version') && zip -j release/nearly-headless-nick_$VERSION.zip build/*",
-	"sign-zip": "export VERSION=$(cat package.json | jq -r '.version') && keybase pgp sign -d -i release/nearly-headless-nick_$VERSION.zip -o release/nearly-headless-nick_$VERSION.zip.asc",
-	"build-docker-image": "npm run build && export VERSION=$(cat package.json | jq -r '.version') && sudo docker build . -t nearly-headless-nick:$VERSION"
+    "dev": "DEBUG=HEADLESS* node-dev build/index.js",
+    "make-zip": "mkdir ./release/; export VERSION=$(cat package.json | jq -r '.version') && zip -j release/nearly-headless-nick_$VERSION.zip build/*",
+    "sign-zip": "export VERSION=$(cat package.json | jq -r '.version') && keybase pgp sign -d -i release/nearly-headless-nick_$VERSION.zip -o release/nearly-headless-nick_$VERSION.zip.asc",
+    "build-docker-image": "npm run build && export VERSION=$(cat package.json | jq -r '.version') && sudo docker build . -t nearly-headless-nick:$VERSION"
   },
   "keywords": [],
   "author": "",
