@@ -7,8 +7,8 @@
     "build": "npm run clean; npm run copy-pkg && tsc",
     "watch": "npm run clean; npm run copy-pkg && tsc -w",
     "copy-pkg": "mkdir ./build/; cp package.json ./build/",
-	"clean": "rm -r ./build/",
-	"dev": "DEBUG=HEADLESS* node-dev build/index.js"
+    "clean": "rm -r ./build/",
+    "dev": "DEBUG=HEADLESS* node-dev build/index.js"
   },
   "keywords": [],
   "author": "",

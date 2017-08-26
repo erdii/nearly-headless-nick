@@ -2,6 +2,7 @@ import * as express from "express";
 import { Headless } from "./headless";
 import { createLogger } from "./logging";
 import * as lib from "./lib";
+import * as morgan from "morgan";
 
 const log = createLogger("server");
 
@@ -19,6 +20,7 @@ export class Server {
 	public init() {
 		return new Promise((resolve, reject) => {
 			log("initializing server");
+			this.app.use(morgan("combined"));
 			this.app.get("*", this.handler);
 
 			this.app.listen(3000, () => {
