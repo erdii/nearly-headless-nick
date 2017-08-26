@@ -41,11 +41,21 @@ export class Server {
 		log("new request");
 
 		const options = lib.createOptions(req.query);
-		const url = lib.sanitizeUrl(path);
+		let url;
 
-		if (!url) {
-			log("url is empty, returning");
-			res.sendStatus(400);
+		try {
+			url = lib.sanitizeUrl(path);
+		} catch (err) {
+			switch (err.message) {
+				case "EMISSINGURL":
+					res.sendStatus(404);
+					break;
+				case "EINVALIDPROTO":
+					res.sendStatus(400);
+					break;
+				default:
+					res.sendStatus(500);
+			}
 			return;
 		}
 
