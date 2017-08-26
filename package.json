@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean; npm run copy-pkg && tsc",
-    "watch": "npm run clean; npm run copy-pkg && tsc -w",
+	"build": "npm run clean; npm run copy-pkg && tsc",
+	"watch": "npm run clean; npm run copy-pkg && tsc -w",
+	"release": "npm run build && npm run make-zip && npm run sign-zip",
     "copy-pkg": "mkdir ./build/; cp package.json ./build/",
     "clean": "rm -r ./build/",
-    "dev": "DEBUG=HEADLESS* node-dev build/index.js"
+	"dev": "DEBUG=HEADLESS* node-dev build/index.js",
+	"make-zip": "mkdir ./release/; zip -j release/nearly-headless-nick.zip build/*",
+	"sign-zip": "keybase pgp sign -d -i release/nearly-headless-nick.zip -o release/nearly-headless-nick.zip.asc"
   },
   "keywords": [],
   "author": "",
