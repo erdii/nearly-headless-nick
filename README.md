@@ -1,4 +1,4 @@
-# Nead Headless Nick
+# Nearly Headless Nick
 
 puppeteer + express = screenshots of websites :3
 
