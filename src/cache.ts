@@ -1,4 +1,5 @@
 import * as redis from "redis";
+import { config } from "./config";
 
 export class Cache {
 	private static prefix = "HEADLESSNICK:";
@@ -6,8 +7,8 @@ export class Cache {
 
 	constructor() {
 		this.client = redis.createClient({
-			host: "127.0.0.1",
-			port: 6379,
+			host: config.get("cache.host"),
+			port: config.get("cache.port"),
 		});
 	}
 
@@ -19,7 +20,7 @@ export class Cache {
 
 	public set(key: string, image: Buffer) {
 		return new Promise((resolve, reject) => {
-			this.client.setex(key, 120, image.toString("base64"), (err) => {
+			this.client.setex(key, config.get("cache.ttl"), image.toString("base64"), (err) => {
 				err ? reject(err) : resolve();
 			});
 		});

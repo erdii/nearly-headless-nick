@@ -2,6 +2,7 @@ import * as puppeteer from "puppeteer";
 import * as lib from "./lib";
 import { Cache } from "./cache";
 import { createLogger } from "./logging";
+import { config } from "./config";
 
 const log = createLogger("puppeteer");
 
@@ -56,7 +57,7 @@ export class Headless {
 			waitUntil: "networkidle",
 		});
 
-		const imageBuffer = await page.screenshot();
+		const imageBuffer = await page.screenshot(config.get("screenshot"));
 
 		try {
 			await this.cache.set(cacheKey, imageBuffer);
