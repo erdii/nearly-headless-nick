@@ -1,5 +1,9 @@
 import * as express from "express";
 import { Headless } from "./headless";
+import { createLogger } from "./logging";
+import * as lib from "./lib";
+
+const log = createLogger("server");
 
 export class Server {
 	private port: number;
@@ -14,6 +18,7 @@ export class Server {
 
 	public init() {
 		return new Promise((resolve, reject) => {
+			log("initializing server");
 			this.app.get("*", this.handler);
 
 			this.app.listen(3000, () => {
@@ -23,15 +28,22 @@ export class Server {
 	}
 
 	private handler = (req: express.Request, res: express.Response) => {
-		const url = (req.query.q || "").trim();
+		log("new request");
+
+		const options = lib.createOptions(req.query.width, req.query.height);
+		const url = lib.sanitizeUrl((req.path.slice(1) || "").trim());
 
 		if (!url) {
+			log("url is empty, returning");
 			res.sendStatus(400);
+			return;
 		}
 
-		this.headless.screenshot(url)
+		log("debug: %s", url, options);
+
+		this.headless.screenshot(url, options)
 			.then(path => {
-				console.log(path);
+				log("screenshot stored at:", path);
 				res.sendFile(path);
 			})
 			.catch(err => {

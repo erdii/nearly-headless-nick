@@ -1,14 +1,20 @@
 import { Headless } from "./headless";
 import { Server } from "./server";
+import { createLogger } from "./logging";
+import { config } from "./config";
+
+const log = createLogger("index");
 
 async function main() {
 	const headless = new Headless();
 	await headless.init();
 
-	const server = new Server(3000, headless);
+	const port = config.get("server.port");
+
+	const server = new Server(port, headless);
 	await server.init();
 
-	console.log("server listening");
+	log("server listening on port %d", port);
 }
 
 main().catch(err => {
