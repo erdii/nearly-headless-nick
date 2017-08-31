@@ -46,7 +46,7 @@ export class Server {
 		let url;
 
 		try {
-			url = lib.sanitizeUrl(path);
+			url = lib.sanitizeUrl(req.query.url);
 		} catch (err) {
 			switch (err.message) {
 				case "EMISSINGURL":
