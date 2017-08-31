@@ -21,6 +21,7 @@
     "@types/convict": "^4.0.1",
     "@types/debug": "0.0.30",
     "@types/express": "^4.0.37",
+    "@types/jimp": "^0.2.1",
     "@types/morgan": "^1.7.32",
     "@types/node": "^8.0.25",
     "@types/redis": "^2.6.0",
@@ -31,6 +32,7 @@
     "convict": "^4.0.0",
     "debug": "^3.0.1",
     "express": "^4.15.4",
+    "jimp": "^0.2.28",
     "morgan": "^1.8.2",
     "puppeteer": "^0.10.0",
     "redis": "^2.8.0"

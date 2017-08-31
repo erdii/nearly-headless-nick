@@ -28,21 +28,29 @@ export function sanitizeUrl(pageUrl: string) {
 	return pageUrl;
 }
 
-export function sanitizeInt(intString: string): number {
+export function sanitizePosInt(intString: string): number {
 	const parsed = parseInt(intString, 10);
 
-	return parsed.toString() === intString
-		? parsed
-		: null;
+	// bail out if the number does not equal the textual representation
+	if (parsed.toString() !== intString) {
+		return null;
+	}
+
+	// ensure returning a positive number
+	return parsed < 0
+		? Math.abs(parsed)
+		: parsed;
 }
 
 export function createOptions(query: any) {
-	const { w, h } = query;
+	const { w, h, sw, sh } = query;
 
-	const options = {} as any;
+	const options = {} as IScreenshotOpts;
 
-	if (w != null) options.width = sanitizeInt(w);
-	if (h != null) options.height = sanitizeInt(h);
+	if (w != null) options.width = sanitizePosInt(w);
+	if (h != null) options.height = sanitizePosInt(h);
+	if (sw != null) options.targetWidth = sanitizePosInt(sw);
+	if (sh != null) options.targetHeight = sanitizePosInt(sh);
 
 	return options;
 }

@@ -12,14 +12,6 @@ export const config = convict({
 	},
 
 	screenshot: {
-		type: {
-			doc: "the screenshot data type",
-			default: "jpeg",
-			format: ["jpeg", "png"],
-			env: "TYPE",
-			arg: "format",
-		},
-
 		quality: {
 			doc: "jpeg quality from 1-100",
 			default: 80,

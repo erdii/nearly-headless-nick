@@ -29,7 +29,7 @@ export class Server {
 		});
 	}
 
-	private handler = (req: express.Request, res: express.Response) => {
+	private handler = async (req: express.Request, res: express.Response) => {
 		const path = (req.path.slice(1) || "").trim();
 
 		switch (path) {
@@ -41,6 +41,7 @@ export class Server {
 		log("new request");
 
 		const options = lib.createOptions(req.query);
+
 		let url;
 
 		try {
@@ -61,14 +62,13 @@ export class Server {
 
 		log("debug: %s", url, options);
 
-		this.headless.screenshot(url, options)
-			.then(image => {
-				res.contentType("png");
-				res.end(image, "binary");
-			})
-			.catch(err => {
-				console.error(err);
-				res.sendStatus(500);
-			});
+		try {
+			const image = await this.headless.screenshot(url, options);
+			res.contentType("jpeg");
+			res.end(image, "binary");
+		} catch (err) {
+			console.error(err);
+			res.sendStatus(500);
+		}
 	}
 }

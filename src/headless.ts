@@ -3,6 +3,7 @@ import * as lib from "./lib";
 import { Cache } from "./cache";
 import { createLogger } from "./logging";
 import { config } from "./config";
+import * as im from "./image-manipulation";
 
 const log = createLogger("puppeteer");
 
@@ -11,9 +12,11 @@ export class Headless {
 	private folder: string;
 	private cache: Cache;
 
-	public static readonly defaultOptions = {
+	public static readonly defaultOptions: IScreenshotOpts = {
 		width: 1024,
 		height: 768,
+		targetWidth: null as number,
+		targetHeight: null as number,
 	};
 
 	constructor(cache: Cache) {
@@ -28,7 +31,7 @@ export class Headless {
 		});
 	}
 
-	public async screenshot(url: string, _options = {}) {
+	public async screenshot(url: string, _options: IScreenshotOpts = {}) {
 		const options = {
 			...Headless.defaultOptions,
 			..._options
@@ -51,16 +54,23 @@ export class Headless {
 
 		const page = await this.browser.newPage();
 
+		const { width, height } = options;
+
 		await page.setViewport({
-			width: options.width,
-			height: options.height,
+			width,
+			height,
 		});
 
 		await page.goto(url, {
 			waitUntil: "networkidle",
 		});
 
-		const imageBuffer = await page.screenshot(config.get("screenshot"));
+		let imageBuffer = await page.screenshot(config.get("screenshot"));
+
+		if (options.targetWidth || options.targetHeight) {
+			const { type, targetWidth, targetHeight } = options;
+			imageBuffer = await im.resize(imageBuffer, type, targetWidth, targetHeight);
+		}
 
 		try {
 			await this.cache.set(cacheKey, imageBuffer);
