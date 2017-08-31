@@ -22,7 +22,7 @@ export class Server {
 		return new Promise((resolve, reject) => {
 			log("initializing server");
 			this.app.use(morgan("combined"));
-			this.app.get("*", this.handler);
+			this.app.get("/cs", this.handler);
 
 			this.app.listen(3000, () => {
 				resolve();
@@ -31,14 +31,6 @@ export class Server {
 	}
 
 	private handler = async (req: express.Request, res: express.Response) => {
-		const path = (req.path.slice(1) || "").trim();
-
-		switch (path) {
-			case "favicon.ico":
-				res.sendStatus(404);
-				return;
-		}
-
 		log("new request");
 
 		const options = lib.createOptions(req.query);
