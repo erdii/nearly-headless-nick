@@ -43,7 +43,7 @@ export function sanitizePosInt(intString: string): number {
 }
 
 export function createOptions(query: any) {
-	const { w, h, sw, sh } = query;
+	const { w, h, sw, sh, fp } = query;
 
 	const options = {} as IScreenshotOpts;
 
@@ -51,6 +51,7 @@ export function createOptions(query: any) {
 	if (h != null) options.height = sanitizePosInt(h);
 	if (sw != null) options.targetWidth = sanitizePosInt(sw);
 	if (sh != null) options.targetHeight = sanitizePosInt(sh);
+	if (fp != null) options.fullPage = true;
 
 	return options;
 }

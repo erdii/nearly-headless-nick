@@ -18,6 +18,7 @@ export class Headless {
 		height: 768,
 		targetWidth: null as number,
 		targetHeight: null as number,
+		fullPage: false,
 	};
 
 	constructor(cache: Cache) {
@@ -70,9 +71,12 @@ export class Headless {
 			throw new Errors.HttpError(url, response.status);
 		}
 
+		const { fullPage } = options;
+
 		let imageBuffer = await page.screenshot({
 			type: "jpeg",
 			quality: config.get("screenshot.quality"),
+			fullPage,
 		});
 
 		if (options.targetWidth || options.targetHeight) {
