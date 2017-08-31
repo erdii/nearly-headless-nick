@@ -4,6 +4,7 @@ import { Cache } from "./cache";
 import { createLogger } from "./logging";
 import { config } from "./config";
 import * as im from "./image-manipulation";
+import * as Errors from "./errors";
 
 const log = createLogger("puppeteer");
 
@@ -61,15 +62,22 @@ export class Headless {
 			height,
 		});
 
-		await page.goto(url, {
+		const response = await page.goto(url, {
 			waitUntil: "networkidle",
 		});
 
-		let imageBuffer = await page.screenshot(config.get("screenshot"));
+		if (!response.ok) {
+			throw new Errors.HttpError(url, response.status);
+		}
+
+		let imageBuffer = await page.screenshot({
+			type: "jpeg",
+			quality: config.get("screenshot.quality"),
+		});
 
 		if (options.targetWidth || options.targetHeight) {
-			const { type, targetWidth, targetHeight } = options;
-			imageBuffer = await im.resize(imageBuffer, type, targetWidth, targetHeight);
+			const { targetWidth, targetHeight } = options;
+			imageBuffer = await im.resize(imageBuffer, targetWidth, targetHeight);
 		}
 
 		try {

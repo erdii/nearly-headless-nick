@@ -1,8 +1,9 @@
 import * as express from "express";
+import * as morgan from "morgan";
 import { Headless } from "./headless";
 import { createLogger } from "./logging";
 import * as lib from "./lib";
-import * as morgan from "morgan";
+import * as Errors from "./errors";
 
 const log = createLogger("server");
 
@@ -67,6 +68,12 @@ export class Server {
 			res.contentType("jpeg");
 			res.end(image, "binary");
 		} catch (err) {
+			if (err instanceof Errors.HttpError) {
+				log("could not reach url %s... responded with code: %d", err.url, err.code);
+				res.sendStatus(err.code);
+				return;
+			}
+
 			console.error(err);
 			res.sendStatus(500);
 		}
