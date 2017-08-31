@@ -6,7 +6,7 @@ this is WIP!
 
 puppeteer docs: https://github.com/GoogleChrome/puppeteer/blob/v0.10.0/README.md
 
-example url: http://localhost:3000/http://outdatedbrowser.com?width=350&height=600
+example url: http://localhost:3000/cs?url=www.youtube.com%2Fwatch%3Fv%3DQzBsdMfmCZU?w=2000&sw=1000
 
 * `npm run release` -> make and sign a release
 * `npm run watch` -> build and watch file changes
