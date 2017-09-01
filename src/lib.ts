@@ -5,6 +5,7 @@ import * as crypto from "crypto";
 import * as os from "os";
 import { createLogger } from "./logging";
 import { config } from "./config";
+import * as Errors from "./errors";
 
 const log = createLogger("lib");
 
@@ -13,13 +14,13 @@ export function hash(input: string) {
 }
 
 export function sanitizeUrl(pageUrl: string) {
+	if (!pageUrl) throw new Errors.MissingUrlError();
+
 	const parsedUrl = url.parse(pageUrl);
 
 	if (!(parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:")) {
 		if (parsedUrl.protocol) {
-			throw new Error("EINVALIDPROTO");
-		} else if (!pageUrl) {
-			throw new Error("EMISSINGURL");
+			throw new Errors.ProtocolError(pageUrl, parsedUrl.protocol);
 		} else {
 			return "http://" + pageUrl;
 		}

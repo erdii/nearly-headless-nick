@@ -40,15 +40,12 @@ export class Server {
 		try {
 			url = lib.sanitizeUrl(req.query.url);
 		} catch (err) {
-			switch (err.message) {
-				case "EMISSINGURL":
-					res.sendStatus(404);
-					break;
-				case "EINVALIDPROTO":
-					res.sendStatus(400);
-					break;
-				default:
-					res.sendStatus(500);
+			if (err instanceof Errors.MissingUrlError) {
+				res.status(404).send(err.toString());
+			} else if (err instanceof Errors.ProtocolError) {
+				res.status(400).send(err.toString());
+			} else {
+				res.sendStatus(500);
 			}
 			return;
 		}
@@ -62,7 +59,7 @@ export class Server {
 		} catch (err) {
 			if (err instanceof Errors.HttpError) {
 				log("could not reach url %s... responded with code: %d", err.url, err.code);
-				res.sendStatus(err.code);
+				res.status(err.code).send(err.toString());
 				return;
 			}
 
