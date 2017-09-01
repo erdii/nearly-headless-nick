@@ -19,6 +19,7 @@ export class Headless {
 		targetWidth: null as number,
 		targetHeight: null as number,
 		fullPage: false,
+		noJs: false,
 	};
 
 	constructor(cache: Cache) {
@@ -54,15 +55,21 @@ export class Headless {
 			return cachedImage;
 		}
 
+		// create page
 		const page = await this.browser.newPage();
 
-		const { width, height } = options;
-
+		// set viewport sizes
 		await page.setViewport({
-			width,
-			height,
+			width: options.width,
+			height: options.height,
 		});
 
+		// disable js is requested
+		if (options.noJs) {
+			await page.setJavaScriptEnabled(false);
+		}
+
+		// navigate to target url
 		const response = await page.goto(url, {
 			waitUntil: "networkidle",
 		});
@@ -71,14 +78,14 @@ export class Headless {
 			throw new Errors.HttpError(url, response.status);
 		}
 
-		const { fullPage } = options;
-
+		// create a screenshot
 		let imageBuffer = await page.screenshot({
 			type: "jpeg",
 			quality: config.get("screenshot.quality"),
-			fullPage,
+			fullPage: options.fullPage,
 		});
 
+		// scale the screenshot if requested
 		if (options.targetWidth || options.targetHeight) {
 			const { targetWidth, targetHeight } = options;
 			imageBuffer = await im.resize(imageBuffer, targetWidth, targetHeight);
