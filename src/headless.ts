@@ -20,6 +20,7 @@ export class Headless {
 		targetHeight: null as number,
 		fullPage: false,
 		noJs: false,
+		delay: null,
 	};
 
 	constructor(cache: Cache) {
@@ -76,6 +77,10 @@ export class Headless {
 
 		if (!response.ok) {
 			throw new Errors.HttpError(url, response.status);
+		}
+
+		if (options.delay) {
+			await page.waitFor(options.delay * 1000);
 		}
 
 		// create a screenshot

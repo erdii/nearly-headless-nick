@@ -5,4 +5,5 @@ declare interface IScreenshotOpts {
 	targetHeight?: number;
 	fullPage?: boolean;
 	noJs?: boolean;
+	delay?: number;
 }

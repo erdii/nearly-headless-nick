@@ -43,10 +43,11 @@ export class Server {
 	 * @apiName ScreenshotCreate
 	 * @apiParam  {Number{1-+Infinity}} w=1024 viewport width
 	 * @apiParam  {Number{1-+Infinity}} h=768 viewport height
-	 * @apiParam  {Number{1-+Infinity}} sw=w optional: scaled image width
-	 * @apiParam  {Number{1-+Infinity}} sh=h optional: scaled image height
+	 * @apiParam  {Number{1-+Infinity}} sw=null optional: scaled image width
+	 * @apiParam  {Number{1-+Infinity}} sh=null optional: scaled image height
 	 * @apiParam  {Boolean} nojs=false disables js execution on the screenshotted page
 	 * @apiParam  {Boolean} fp=false screenshot full page height (this overrides h)
+	 * @apiParam  {Number{1-60}} delay=null optional: delay the screenshot for x seconds (use when the site is very js heavy)
 	 */
 	private handler = async (req: express.Request, res: express.Response) => {
 		log("new request");

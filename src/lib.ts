@@ -84,7 +84,7 @@ export function sanitizePosInt(intString: string): number {
  * @returns IScreenshotOpts
  */
 export function createOptions(query: any) {
-	const { w, h, sw, sh, fp, nojs } = query;
+	const { w, h, sw, sh, fp, nojs, d } = query;
 
 	const options = {} as IScreenshotOpts;
 
@@ -94,6 +94,7 @@ export function createOptions(query: any) {
 	if (sh != null) options.targetHeight = sanitizePosInt(sh);
 	if (fp != null) options.fullPage = true;
 	if (nojs != null) options.noJs = true;
+	if (d != null) options.delay = Math.min(sanitizePosInt(d), 60);
 
 	return options;
 }
