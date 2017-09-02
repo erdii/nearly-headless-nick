@@ -7,6 +7,9 @@ import * as Errors from "./errors";
 
 const log = createLogger("server");
 
+/**
+ * Express server with request handler functions
+ */
 export class Server {
 	private port: number;
 	private headless: Headless;
@@ -24,19 +27,36 @@ export class Server {
 			this.app.use(morgan("combined"));
 			this.app.get("/cs", this.handler);
 
-			this.app.listen(3000, () => {
+			this.app.listen(this.port, () => {
 				resolve();
 			});
 		});
 	}
 
+
+	/**
+	 * @api {get} /sc Request a screenshot
+	 * @apiDescription This endpoint requests a screenshot of the page at
+	 * a user supplied url, that will be cached.
+	 * The user can supply various parameters, to define things like
+	 * the viewport size, scaled picture sizes, js execution and more.
+	 * @apiName ScreenshotCreate
+	 * @apiParam  {Number{1-+Infinity}} w=1024 viewport width
+	 * @apiParam  {Number{1-+Infinity}} h=768 viewport height
+	 * @apiParam  {Number{1-+Infinity}} sw=w optional: scaled image width
+	 * @apiParam  {Number{1-+Infinity}} sh=h optional: scaled image height
+	 * @apiParam  {Boolean} nojs=false disables js execution on the screenshotted page
+	 * @apiParam  {Boolean} fp=false screenshot full page height (this overrides h)
+	 */
 	private handler = async (req: express.Request, res: express.Response) => {
 		log("new request");
 
+		// parse options from query params
 		const options = lib.createOptions(req.query);
 
 		let url;
 
+		// parse url
 		try {
 			url = lib.sanitizeUrl(req.query.url);
 		} catch (err) {
@@ -52,6 +72,7 @@ export class Server {
 
 		log("debug: %s", url, options);
 
+		// take screenshot of the target url
 		try {
 			const image = await this.headless.screenshot(url, options);
 			res.contentType("jpeg");
