@@ -22,10 +22,10 @@
     "@types/debug": "0.0.30",
     "@types/express": "^4.0.37",
     "@types/morgan": "^1.7.32",
-    "@types/node": "^8.0.25",
+    "@types/node": "^8.0.26",
     "@types/redis": "^2.6.0",
-    "tslint": "^5.6.0",
-    "typescript": "^2.4.2"
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.2"
   },
   "dependencies": {
     "convict": "^4.0.0",
@@ -33,7 +33,7 @@
     "express": "^4.15.4",
     "jimp": "^0.2.28",
     "morgan": "^1.8.2",
-    "puppeteer": "^0.10.0",
+    "puppeteer": "^0.10.2",
     "redis": "^2.8.0"
   }
 }
