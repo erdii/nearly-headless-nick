@@ -46,7 +46,7 @@ RUN adduser --disabled-password --gecos "" app
 RUN chown app:app /app
 USER app
 
-COPY build/* /app/
+COPY .build/* /app/
 RUN npm install --production
 
 EXPOSE 3000
