@@ -10,7 +10,7 @@
     "copy-pkg": "mkdir ./build/; cp package.json ./build/",
     "clean": "rm -r ./build/",
     "dev": "DEBUG=HEADLESS* node-dev build/index.js",
-    "apidoc": "apidoc -i src/ -o apidoc/"
+    "apidoc": "apidoc -i src/ -o apidoc/ && git add apidoc/ && git commit -m \"apidoc update\" && git subtree push --prefix apidoc origin gh-pages"
   },
   "apidoc": {
     "title": "Nearly Headless Nick API Documentation"
