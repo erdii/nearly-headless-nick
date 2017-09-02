@@ -36,6 +36,7 @@ export class Server {
 
 	/**
 	 * @api {get} /sc Request a screenshot
+	 * @apiGroup Main
 	 * @apiDescription This endpoint requests a screenshot of the page at
 	 * a user supplied url, that will be cached.
 	 * The user can supply various parameters, to define things like

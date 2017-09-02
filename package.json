@@ -9,7 +9,11 @@
     "release": "npm run build && npm run make-zip && npm run sign-zip",
     "copy-pkg": "mkdir ./build/; cp package.json ./build/",
     "clean": "rm -r ./build/",
-    "dev": "DEBUG=HEADLESS* node-dev build/index.js"
+    "dev": "DEBUG=HEADLESS* node-dev build/index.js",
+    "apidoc": "apidoc -i src/ -o apidoc/"
+  },
+  "apidoc": {
+    "title": "Nearly Headless Nick API Documentation"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +25,7 @@
     "@types/morgan": "^1.7.32",
     "@types/node": "^8.0.26",
     "@types/redis": "^2.6.0",
+    "apidoc": "^0.17.6",
     "tslint": "^5.7.0",
     "typescript": "^2.5.2"
   },
