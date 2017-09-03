@@ -6,4 +6,6 @@ declare interface IScreenshotOpts {
 	fullPage?: boolean;
 	noJs?: boolean;
 	delay?: number;
+	url?: string;
+	html?: string;
 }

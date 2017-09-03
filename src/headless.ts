@@ -8,6 +8,11 @@ import * as Errors from "./errors";
 
 const log = createLogger("puppeteer");
 
+export enum SHOT_TYPE {
+	URL,
+	HTML,
+}
+
 export class Headless {
 	private browser: any;
 	private folder: string;
@@ -21,6 +26,7 @@ export class Headless {
 		fullPage: false,
 		noJs: false,
 		delay: null,
+		url: null,
 	};
 
 	constructor(cache: Cache) {
@@ -35,13 +41,13 @@ export class Headless {
 		});
 	}
 
-	public async screenshot(url: string, _options: IScreenshotOpts = {}) {
+	public async screenshot(type: SHOT_TYPE, _options: IScreenshotOpts = {}) {
 		const options = {
 			...Headless.defaultOptions,
 			..._options
 		};
 
-		const cacheKey = lib.hash(url + JSON.stringify(options));
+		const cacheKey = lib.hash(JSON.stringify(options));
 		log(cacheKey, options);
 
 		let cachedImage: Buffer;
@@ -70,13 +76,20 @@ export class Headless {
 			await page.setJavaScriptEnabled(false);
 		}
 
-		// navigate to target url
-		const response = await page.goto(url, {
-			waitUntil: "networkidle",
-		});
+		switch (type) {
+			case SHOT_TYPE.URL:
+				// navigate to target url
+				const response = await page.goto(options.url, {
+					waitUntil: "networkidle",
+				});
 
-		if (!response.ok) {
-			throw new Errors.HttpError(url, response.status);
+				if (!response.ok) {
+					throw new Errors.HttpError(options.url, response.status);
+				}
+				break;
+			case SHOT_TYPE.HTML:
+				await page.setContent(options.html);
+				break;
 		}
 
 		if (options.delay) {
