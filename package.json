@@ -7,7 +7,7 @@
     "build": "tsc",
     "watch": "make build && tsc -w",
     "dev": "DEBUG=HEADLESS* node-dev build/index.js",
-    "apidoc": "apidoc -i src/ -o apidoc/ && git add apidoc/ && git commit -m \"apidoc update\" && git subtree push --prefix apidoc origin gh-pages"
+    "apidoc": "apidoc"
   },
   "apidoc": {
     "title": "Nearly Headless Nick API Documentation"

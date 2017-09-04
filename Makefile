@@ -10,7 +10,7 @@ build: clean copy-pkg
 
 
 .PHONY: release
-release: build
+release: build release-apidoc
 	mkdir $(RELEASE_PATH) || true
 	zip -j $(RELEASE_PATH)/$(NAME)_$(VERSION).zip $(BUILD_PATH)/*
 	cp $(RELEASE_PATH)/$(NAME)_$(VERSION).zip $(RELEASE_PATH)/$(NAME)_latest.zip
@@ -31,3 +31,13 @@ clean:
 copy-pkg:
 	mkdir $(BUILD_PATH) || true
 	cp package.json package-lock.json $(BUILD_PATH)
+
+.PHONY: apidoc
+apidoc:
+	npm run apidoc -- -i src/ -o apidoc/
+
+.PHONY: release-apidoc
+release-apidoc: apidoc
+	git add apidoc/
+	git commit -m "apidoc update"
+	git subtree push --prefix apidoc origin gh-pages

@@ -33,6 +33,7 @@ export class Server {
 
 			this.app.get("/cs", this.createScreenshot);
 			this.app.post("/html", this.createHTMLScreenshot);
+			this.app.get("/help", (req, res) => res.redirect("https://erdii.github.io/nearly-headless-nick"));
 
 			this.app.listen(this.port, () => {
 				resolve();
@@ -42,7 +43,7 @@ export class Server {
 
 
 	/**
-	 * @api {get} /sc Request a screenshot
+	 * @api {get} /sc Request url screenshot
 	 * @apiGroup Main
 	 * @apiDescription This endpoint requests a screenshot of the page at
 	 * a user supplied url, that will be cached.
@@ -98,7 +99,7 @@ export class Server {
 
 
 	/**
-	 * @api {post} /html Post html to screenshot
+	 * @api {post} /html Request html screenshot
 	 * @apiGroup Main
 	 * @apiDescription This endpoint requests a screenshot of the rendered html payload
 	 * The user can supply various parameters, to define things like
