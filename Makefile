@@ -1,8 +1,9 @@
 VERSION := $(shell jq -r '.version' package.json)
 NAME := $(shell jq -r '.name' package.json)
-BUILD_PATH = .build
-RELEASE_PATH = .release
+BUILD_PATH := .build
+RELEASE_PATH := .release
 RELEASE_FILE := $(shell ls -Art $(RELEASE_PATH) | grep '.zip' | grep -v 'latest' | tail -n 1)
+DOCKER_REPO := erdii
 
 .PHONY: build
 build: clean copy-pkg
@@ -20,7 +21,12 @@ release: build release-apidoc
 
 .PHONY: docker
 docker: build
-	sudo docker build . -t $(NAME):latest -t $(NAME):$(VERSION)
+	sudo docker build . -t $(DOCKER_REPO)/$(NAME):latest -t $(DOCKER_REPO)/$(NAME):$(VERSION)
+
+
+.PHONY: release-docker
+release-docker: docker
+	sudo docker push $(DOCKER_REPO)/$(NAME):latest
 
 
 .PHONY: clean
