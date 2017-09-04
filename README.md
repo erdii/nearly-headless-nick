@@ -9,7 +9,7 @@ puppeteer docs: https://github.com/GoogleChrome/puppeteer/blob/v0.10.0/README.md
 example url: http://localhost:3000/cs?url=www.youtube.com%2Fwatch%3Fv%3DQzBsdMfmCZU?w=2000&sw=1000
 
 * `npm run watch` -> build and watch file changes
-* `npm run build` -> build
+* `make build` -> build
 * `make release` -> make and sign a release
 * `make docker` -> build and create docker image
 

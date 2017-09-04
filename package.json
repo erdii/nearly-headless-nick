@@ -4,11 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean; npm run copy-pkg && tsc",
-    "watch": "npm run clean; npm run copy-pkg && tsc -w",
-    "release": "npm run build && npm run make-zip && npm run sign-zip",
-    "copy-pkg": "mkdir .build/; cp package.json .build/",
-    "clean": "rm -r .build/",
+    "build": "tsc",
+    "watch": "make build && tsc -w",
     "dev": "DEBUG=HEADLESS* node-dev build/index.js",
     "apidoc": "apidoc -i src/ -o apidoc/ && git add apidoc/ && git commit -m \"apidoc update\" && git subtree push --prefix apidoc origin gh-pages"
   },
