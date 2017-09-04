@@ -26,7 +26,7 @@ docker: build
 
 .PHONY: release-docker
 release-docker: docker
-	sudo docker push $(DOCKER_REPO)/$(NAME):latest
+	sudo docker push $(DOCKER_REPO)/$(NAME)
 
 
 .PHONY: clean
