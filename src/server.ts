@@ -128,12 +128,6 @@ export class Server {
 			res.contentType("jpeg");
 			res.end(image, "binary");
 		} catch (err) {
-			if (err instanceof Errors.HttpError) {
-				log("could not reach url %s... responded with code: %d", err.url, err.code);
-				res.status(err.code).send(err.toString());
-				return;
-			}
-
 			console.error(err);
 			res.sendStatus(500);
 		}
