@@ -71,7 +71,7 @@ export class Headless {
 			height: options.height,
 		});
 
-		// disable js is requested
+		// disable js if requested
 		if (options.noJs) {
 			await page.setJavaScriptEnabled(false);
 		}
