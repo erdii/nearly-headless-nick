@@ -1,6 +1,6 @@
 # Nearly Headless Nick
 
-puppeteer + express = screenshots of websites :3
+Website screenshots as a (micro-)service!
 
 **we need a new name and a logo for this one**
 
