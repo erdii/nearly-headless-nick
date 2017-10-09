@@ -2,11 +2,31 @@
 
 puppeteer + express = screenshots of websites :3
 
-this is WIP!
+**we need a new name and a logo for this one**
 
-puppeteer docs: https://github.com/GoogleChrome/puppeteer/blob/v0.10.0/README.md
+### Installation
+* docker:
+	* run `docker run --rm -p 3000:3000 -e CACHE_HOST=IP.TO.REDIS.SERVER erdii/nearly-headless-nick:lastest`
+* bare:
+	* clone repository
+	* run `make release`, find the release in `.release`
+	* extract the release on your server: `unzip release.zip`
+	* cd into the unzipped folder
+	* install dependencies: `npm install --production`
+	* run the server with `npm start`
 
-example url: http://localhost:3000/cs?url=www.youtube.com%2Fwatch%3Fv%3DQzBsdMfmCZU?w=2000&sw=1000
+
+### Configuration
+
+The server can be configured using envvars, command-line args and a config file. See `src/config.ts` for more.
+
+
+### Usage
+
+[api documentation can be found here!](https://erdii.github.io/nearly-headless-nick/)
+
+
+### Development
 
 * `npm run watch` -> build and watch file changes
 * `make build` -> build
@@ -14,5 +34,5 @@ example url: http://localhost:3000/cs?url=www.youtube.com%2Fwatch%3Fv%3DQzBsdMfm
 * `make docker` -> build and create docker image
 
 
-* test the docker container: `sudo docker run --rm -p 3001:3000 -e DEBUG=HEADLESS:* -e CACHE_HOST=192.168.178.45 nearly-headless-nick:latest`
+* test the docker container: `docker run --rm -p 3001:3000 -e DEBUG=HEADLESS:* -e CACHE_HOST=192.168.178.45 nearly-headless-nick:latest`
 * configurable options can be looked up in `src/config.ts`
