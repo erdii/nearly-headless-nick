@@ -11,7 +11,7 @@ build: clean copy-pkg
 
 
 .PHONY: release
-release: build release-apidoc
+release: build # release-apidoc
 	mkdir $(RELEASE_PATH) || true
 	zip -j $(RELEASE_PATH)/$(NAME)_$(VERSION).zip $(BUILD_PATH)/*
 	cp $(RELEASE_PATH)/$(NAME)_$(VERSION).zip $(RELEASE_PATH)/$(NAME)_latest.zip
