@@ -4,6 +4,10 @@ Website screenshots as a (micro-)service!
 
 **we need a new name and a logo for this one**
 
+This is a small microservice based on *chrome-headless* and *express* that makes you wonderful screenshots of
+* websites given by url
+* posted html
+
 ### Installation
 * docker:
 	* run `docker run --rm -p 3000:3000 -e CACHE_HOST=IP.TO.REDIS.SERVER erdii/nearly-headless-nick:lastest`
