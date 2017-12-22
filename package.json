@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "make build && tsc -w",
-    "dev": "DEBUG=HEADLESS* node-dev build/index.js",
+    "dev": "DEBUG=HEADLESS* node-dev .build/index.js",
     "apidoc": "apidoc"
   },
   "apidoc": {

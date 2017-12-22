@@ -6,6 +6,8 @@ import { createLogger } from "./logging";
 import * as lib from "./lib";
 import * as Errors from "./errors";
 
+const pkg = require("./package");
+
 const log = createLogger("server");
 
 /**
@@ -30,6 +32,10 @@ export class Server {
 				type: "*/*",
 				// limit: null // leave that for later
 			}));
+
+			this.app.get("/", (req, res) => {
+				res.send(`Welcome to the ${pkg.name} v${pkg.version}. Go to /help if you don't know what to do.`);
+			});
 
 			this.app.get("/cs", this.createScreenshot);
 			this.app.post("/html", this.createHTMLScreenshot);
