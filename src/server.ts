@@ -43,13 +43,14 @@ export class Server {
 
 
 	/**
-	 * @api {get} /sc Request url screenshot
+	 * @api {get} /cs Request url screenshot
 	 * @apiGroup Main
 	 * @apiDescription This endpoint requests a screenshot of the page at
 	 * a user supplied url, that will be cached.
 	 * The user can supply various parameters, to define things like
 	 * the viewport size, scaled picture sizes, js execution and more.
-	 * @apiName createScreenshot
+	 * @apiName createScreenshot#
+	 * @apiParam  {String} url the page url
 	 * @apiParam  {Number{1-+Infinity}} w=1024 viewport width
 	 * @apiParam  {Number{1-+Infinity}} h=768 viewport height
 	 * @apiParam  {Number{1-+Infinity}} sw=null optional: scaled image width
