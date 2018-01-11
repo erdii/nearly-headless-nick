@@ -19,7 +19,6 @@ async function main() {
 
 	// init express server
 	const port = config.get("server.port");
-
 	const server = new Server(port, headless);
 	await server.init();
 

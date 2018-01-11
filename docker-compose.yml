@@ -1,0 +1,13 @@
+version: "2"
+
+services:
+  app:
+    image: erdii/nearly-headless-nick:latest
+    depends_on:
+      - cache
+    ports:
+      - 3000:3000
+    environment:
+      - CACHE_HOST=cache
+  cache:
+    image: redis
