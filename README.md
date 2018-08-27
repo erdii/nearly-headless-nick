@@ -2,7 +2,7 @@
 
 Website screenshots as a (micro-)service!
 
-**we need a new name and a logo for this one**
+-> EXPERIMENTAL
 
 This is a small microservice based on *chrome-headless* and *express* that makes you wonderful screenshots of
 * websites given by url
